@@ -35,7 +35,7 @@ EvoRAG is a next-generation Retrieval-Augmented Generation (RAG) system that lea
 
 *   **Backend:** FastAPI, Uvicorn
 *   **Frontend:** Streamlit
-*   **LLMs:** Google Gemini (1.5 Flash for generation, 1.5 Pro for judging)
+*   **LLMs:** Google Gemini (2.5 Flash for generation, 2.5 Pro for judging)
 *   **Vector Database:** Qdrant
 *   **Embedding Model:** `google/embeddinggemma-300m`
 *   **Document Parsing:** `docling`
