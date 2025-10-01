@@ -1,0 +1,5 @@
+.venv
+.env
+Documents
+qdrant_storage
+evaluation_logs.jsonl
