@@ -7,14 +7,6 @@ EvoRAG is a next-generation Retrieval-Augmented Generation (RAG) system that lea
 
 ---
 
-### 🎥 Live Demo
-
-*(It is **highly recommended** you record a short GIF of the UI in action and place it here. Use a tool like LICEcap, ScreenToGif, or Kap. A visual demo is the most effective way to showcase your project.)*
-
-![EvoRAG Demo GIF](placeholder_for_your_demo.gif)
-
----
-
 ### ✨ Core Features
 
 *   **🧠 Intelligent Query Transformation:** Uses a "Query Rewriter" LLM to convert simple user questions into optimized, keyword-rich queries for superior retrieval accuracy.
@@ -26,38 +18,15 @@ EvoRAG is a next-generation Retrieval-Augmented Generation (RAG) system that lea
 
 ---
 
-### 🏛️ System Architecture
+### 🏛️ App Screenshots
 
-EvoRAG is composed of several independent services that communicate via a message broker, ensuring a responsive user experience and robust background processing.
+<img width="1895" height="963" alt="UI" src="https://github.com/user-attachments/assets/132402a1-393e-4f69-9b1b-1b333f87a852" />
+<img width="1887" height="962" alt="Question" src="https://github.com/user-attachments/assets/ce1a3dad-c91b-4efb-9147-8cf3473d38fc" />
 
-```mermaid
-graph TD
-    subgraph "Real-Time User Interaction"
-        A[User] -- Interacts with --> B(Streamlit UI);
-        B -- /ask request --> C{FastAPI Backend};
-        C -- Calls --> D[RAG Service];
-        D -- 1. Rewrite Query --> E((Gemini LLM));
-        D -- 2. Retrieve Context --> F((Qdrant DB));
-        D -- 3. Synthesize Answer --> E;
-        D -- Returns Answer --> C;
-        C -- Returns Answer to UI --> B;
-    end
+## Evaluation of the query above:
 
-    subgraph "Asynchronous Evaluation (Background)"
-        C -- 3a. Dispatches Judging Task --> G((Redis Message Queue));
-        H(Celery Worker) -- Constantly Watches --> G;
-        H -- Picks up job --> I[LLM as a Judge];
-        I -- Evaluates Q-C-A --> E;
-        I -- Returns JSON Evaluation --> H;
-        H -- Writes to --> J(evaluation_logs.jsonl);
-    end
-
-    subgraph "Offline Evolution (Future)"
-        K["Evolve" Service] -- Reads --> J;
-        K -- Analyzes failures --> E;
-        K -- Generates new prompts --> L[prompt_files.txt];
-        D -- Loads prompts from --> L;
-    end
+```json
+{"evaluation": {"query_evaluation": {"reasoning": "The rewritten query is a significant improvement. It deconstructs the ambiguous term 'components' into specific, relevant legal terminology such as 'sections,' 'schedules,' 'provisions,' 'tax amendments,' and 'financial regulations.' This expansion adds valuable keywords and context, making the query much more precise for a vector database search without losing the original user's intent.", "score": 5, "identified_issue": "NONE"}, "answer_evaluation": {"reasoning": "The answer correctly synthesizes information from the fragmented retrieved context. Every point made in the answer, such as the name of the Act, the mention of Section 12, the 'no refund' clause, and different commencement dates, is directly grounded in the provided snippets. However, the retrieved context is a collection of disparate clauses and does not provide a structural overview of the Finance Act. As a result, the answer can only list examples of provisions rather than describing the main components (like Parts, Chapters, Schedules), making it highly incomplete in addressing the original query.", "relevance_score": 4, "correctness_score": 5, "completeness_score": 2, "identified_issue": "INCOMPLETE"}}, "timestamp": "2025-10-01T20:43:11.393957"}
 ```
 
 ---
@@ -121,13 +90,14 @@ The system requires **3 separate terminals** to run the backend services and **1
 **Terminal 1: Start the Celery Worker**
 ```bash
 celery -A tasks worker --loglevel=info
+celery -A tasks worker --loglevel=info -P gevent (for Windows devices)
 ```
 
 **Terminal 2: Start the FastAPI Backend**
 ```bash
-uvicorn api:app --reload```
-
-**Terminal 3: Start the Streamlit Frontend**
+uvicorn api:app --reload
+```
+**Terminal 3: Start the Streamlit UI**
 ```bash
 streamlit run ui.py
 ```
@@ -164,4 +134,4 @@ This project is designed for a final, powerful feature: the "Evolve" button. Whi
 -   [ ] **Advanced Chunking Strategies:** Implement more sophisticated chunking logic based on document type.
 -   [ ] **Expanded Database Support:** Add connectors for other vector databases like Weaviate or Pinecone.
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.````
+
