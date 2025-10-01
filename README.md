@@ -3,7 +3,7 @@
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 
-EvoRAG is a next-generation Retrieval-Augmented Generation (RAG) system that learns and improves from user interactions. It features a sophisticated query transformation engine and an asynchronous, LLM-powered evaluation loop, allowing it to evolve its own prompts to become more accurate over time.
+EvoRAG is a next-generation Retrieval-Augmented Generation (RAG) system that learns and improves from user interactions by utilising an LLM as a judge to evaluate results and improve its prompts. It features a sophisticated query transformation engine and an asynchronous, LLM-powered evaluation loop with redis and celery, allowing it to evolve its own prompts to become more accurate over time.
 
 ---
 
